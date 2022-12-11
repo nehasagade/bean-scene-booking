@@ -1,0 +1,92 @@
+﻿@model IEnumerable<BeanSceneApp.Models.Booking>
+@{
+    ViewData["Title"] = "Completed Bookings";
+}
+
+<h1>Completed List</h1>
+<p>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("Index")">
+        <span>All</span>
+    </a>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("TodaysList")">
+        <span>Today</span>
+    </a>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("PendingList")">
+        <span>Pending</span>
+    </a>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("ConfirmedList")">
+        <span>Confirmed</span>
+    </a>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("CancelledList")">
+        <span>Cancelled</span>
+    </a>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("SeatedList")">
+        <span>Seated</span>
+    </a>
+    <a type="button" id="selectedBtn" class="btn btn-primary mb-3" href="@Url.Action("CompletedList")">
+        <span>Completed</span>
+    </a>
+</p>
+@foreach (var group in Model.GroupBy(x => x.Date))
+{
+    <h2>@String.Format("{0: ddd dd/MM/yyyy}", group.Key)</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NumOfGuests)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Note)
+                </th>
+                
+                
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+    
+        <tr>
+            <td>
+                 @String.Format("{0:hh\\:mm}", item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumOfGuests)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+        </tr>
+    }
+        </tbody>
+    </table>
+}
+
+

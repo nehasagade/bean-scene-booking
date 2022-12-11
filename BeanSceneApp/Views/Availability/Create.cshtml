@@ -1,0 +1,62 @@
+﻿@model BeanSceneApp.ViewModels.AvailabilityViewModel
+
+@{
+    ViewData["Title"] = "Create Sitting";
+}
+
+<h1>Create</h1>
+
+<h4>Sitting</h4>
+<hr />
+<div class="row">
+    <div class="col-md-7">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group my-1">
+                <label asp-for="Availability.SittingType" class="control-label fw-bold"></label>
+                <p>NOTE: Sitting Type "Private Event" is for full day events, e.g. a wedding</p>
+                @Html.DropDownListFor(model => model.Availability.SittingType, new SelectList(Model.SittingTypeList, "SittingName", "SittingName"), new {@class = "form-control form-select", @style = "border: solid 2px #083944"})
+            </div>
+            <div class="form-group my-1">
+                <label asp-for="Availability.Date" class="control-label"></label>
+                <input asp-for="Availability.Date" style="border: solid 2px #083944" type="date" class="form-control" />
+                <span asp-validation-for="Availability.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group my-1">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" style="border: solid 2px #083944" type="date" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group my-1">
+                <label asp-for="Availability.StartTime" class="control-label fw-bold"></label>
+                @Html.DropDownListFor(model => model.Availability.StartTime, new SelectList(Model.Timeslot, "StartTime", "StartTime"), new {@class = "form-control form-select", @style = "border: solid 2px #083944"})
+            </div>
+            <div class="form-group my-1">
+                <label asp-for="EndTime" class="control-label"></label>
+                @Html.DropDownListFor(model => model.EndTime, new SelectList(Model.Timeslot, "StartTime", "StartTime"), new {@class = "form-control form-select", @style = "border: solid 2px #083944"})
+            </div>
+            <div>
+                <label>Areas</label>
+                <p>Press Control/Command and then click to select multiple Areas.</p>
+                
+                @Html.ListBoxFor(model => model.SelectedAreaIds, new MultiSelectList(Model.SelectedAreas, "AreaId", "Name", "Selected"), new {multiple = true, @class="form-control"})
+            </div>
+            <div class="form-group my-1">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a type="button" class="btn btn-primary" href="@Url.Action("Index")">
+                    <span>Back</span>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@*@foreach (var area in Model.AreasSelected)
+{
+    <label class="control-label">@area.Key.Name</label>
+    @Html.CheckBox("AreasSelected[" + area.Key.AreaId + "]", area.Value)
+}*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

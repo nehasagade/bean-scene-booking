@@ -1,0 +1,47 @@
+﻿@model Dictionary<DateTime, int>
+@{
+    ViewData["Title"] = "Guests By Date Report";
+}
+
+
+
+<h1>Number of Guests By Date</h1>
+
+<p>See the number of guest for completed bookings by date in the last month.</p>
+
+<p>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("Index")">
+        <span>Back</span>
+    </a>
+</p>
+<h2>From @String.Format("{0:dd/MM/yyyy}", DateTime.Now.AddDays(-31)) - @String.Format("{0:dd/MM/yyyy}", DateTime.Now)</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               <p>Date</p>
+            </th>
+            <th>
+                <p>Total Number of Guests</p>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(KeyValuePair<DateTime, int> item in Model) 
+        {
+            <tr>
+               <td>
+                    @String.Format("{0: ddd dd/MM/yyyy}", item.Key)
+               </td>
+               <td>
+                    @item.Value
+               </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

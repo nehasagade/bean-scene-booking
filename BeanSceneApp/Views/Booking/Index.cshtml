@@ -1,0 +1,153 @@
+﻿@model  IEnumerable<BeanSceneApp.Models.Booking>
+@{
+    ViewData["Title"] = "Bookings";
+}
+
+<h1>All Bookings</h1>
+
+<p>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("Create")">
+        <span class="glyphicon glyphicon-plus"></span>
+        <span>New</span>
+    </a>
+</p>
+<p>
+    <a type="button" id="selectedBtn" class="btn btn-primary mb-3" href="@Url.Action("Index")">
+        <span>All</span>
+    </a>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("TodaysList")">
+        <span>Today</span>
+    </a>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("PendingList")">
+        <span>Pending</span>
+    </a>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("ConfirmedList")">
+        <span>Confirmed</span>
+    </a>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("CancelledList")">
+        <span>Cancelled</span>
+    </a>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("SeatedList")">
+        <span>Seated</span>
+    </a>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("CompletedList")">
+        <span>Completed</span>
+    </a>
+</p>
+@foreach (var group in Model.GroupBy(x => x.Date))
+{
+    <h2>@String.Format("{0: ddd dd/MM/yyyy}", group.Key)</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NumOfGuests)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AvailableTables)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Note)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+  
+        @foreach (var item in group)
+        {
+            <tbody>    
+                <tr>
+                    <td>
+                        @String.Format("{0:hh\\:mm}", item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumOfGuests)
+                    </td>
+                    <td>
+                        @foreach(var table in item.AvailableTables)
+                        {
+                            @String.Format("{0}{1}, ",  table.AreaId, table.TableNum)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Note)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td></td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" asp-controller="Booking" asp-route-id="@item.Id" asp-action="Detail">Details</a>
+                        
+                        @if (item.Status == Booking.StatusEnum.Pending || item.Status == Booking.StatusEnum.Confirmed)
+                        {
+                            <a class="btn btn-danger btn-sm" asp-controller="Booking" asp-route-id="@item.Id" asp-action="Cancel">Cancel</a>
+                        }
+                        @if (item.AvailableTables.Count() < item.RequiredTables)
+                        {
+                            
+                            if (item.IsPrivateBooking)
+                            {
+                                <a class="btn btn-secondary btn-sm" asp-controller="AvailableTable" asp-route-id="@item.Id" asp-action="SearchTablePrivate">Search</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-secondary btn-sm" asp-controller="AvailableTable" asp-route-id="@item.Id" asp-action="SearchTable">Search</a>
+                            }
+                        }
+                        else
+                        {
+                            @if (item.Status == Booking.StatusEnum.Pending)
+                            {
+                                <a class="btn btn-primary btn-sm" asp-controller="Booking" asp-route-id="@item.Id" asp-action="Confirm">Confirm</a>   
+                            }                       
+                        
+                            @if (item.Date == DateTime.Today.Date && item.Status == Booking.StatusEnum.Confirmed && item.StartTime > DateTime.Now.TimeOfDay)
+
+                            {
+                                <a class="btn btn-success btn-sm" asp-controller="Booking" asp-route-id="@item.Id" asp-action="Seat">Seat</a>
+                            }
+
+                            @if (item.Status == Booking.StatusEnum.Seated)
+                            {
+                                <a class="btn btn-primary btn-sm" asp-controller="Booking" asp-route-id="@item.Id" asp-action="Complete">Completed</a>
+                            }  
+                        }                        
+                        
+                        
+                    </td>
+                </tr>
+            </tbody>
+        }
+    </table>
+}
+
+
+
+
+

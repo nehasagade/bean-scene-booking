@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap');
+* {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+  font-size: 20px;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+h2{
+    font-weight: bold;
+}
+
+.btn {
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #083944;
+    border-color: #083944;
+}
+
+.btn-primary:hover {
+    background-color: #4AA1B5;
+    border-color: #4AA1B5;
+}
+
+.nav-pills .nav-link  {
+    color:#083944;
+    font-weight: bold;
+
+}
+.nav-pills .nav-link.active {
+        background-color: #083944;
+        color: white;
+}
+
+label {
+    font-weight: bold;
+}
+
+#selectedBtn {
+    background-color: #4AA1B5;
+    border-color: #4AA1B5;
+}
+
+.form-control {
+    border: solid 2px #083944;
+}
+

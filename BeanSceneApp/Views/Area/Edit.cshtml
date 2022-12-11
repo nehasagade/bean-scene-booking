@@ -1,0 +1,80 @@
+﻿@model BeanSceneApp.Models.Area
+
+@{
+    ViewData["Title"] = "Edit Area";
+}
+
+<h1>Edit @Model.Name</h1>
+<hr />
+<div class="row">
+    <div class="col-md-7">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="AreaId" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label fw-bold my-1"></label>
+                <input asp-for="Name" style="border: solid 2px #083944" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageURL" class="control-label"></label>
+                <input type="hidden" style="border: solid 2px #083944" asp-for="ImageURL" class="form-control" /><br />
+                <!-- Dropzone drag and drop image. -->
+                <div id="image-dropzone" style="border: solid 2px #083944">
+                    Drag and drop file(s) here or click to upload.
+                </div>
+                <span asp-validation-for="ImageURL" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary my-2" />
+                <a type="button" class="btn btn-primary my-1" href="@Url.Action("Index")">
+                    <span>Back</span>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- JS to initialise the dropzone -->
+<script defer>
+    // Disable auto-discover of Dropzones
+    Dropzone.autoDiscover = false 
+    // Configuration - a selector & config object
+    let imageDropzone = new Dropzone("#image-dropzone", {
+        paramName: "file",                  // The name use to transfer the file
+        url: "/Area/ImageUpload",            // URL endpoint/action for the image upload.
+        maxFiles: 1,                        // Only one file can be uploaded
+        init: function() { 
+            // Add the dropzone class, to activate the default styling.
+            // It doesn't work well if automatically initialised.
+            if (this.element) {
+                this.element.classList.add("dropzone")
+            }
+        },
+        // RUns on successfull image upload
+        success: function(file) {
+            console.log("Successful image upload....")
+
+            // Get uploaded image URL from response
+            const uploadedFileUrl = file?.xhr?.responseText ?? ""
+
+            // Get hidden input for ImageURL
+            const imageUrl = document.getElementById("ImageURL")
+
+            // Make sure the image URL and hidden input exist
+            if (imageUrl && uploadedFileUrl) {
+                // UPdate the image url for the book base on the filed and remove extra double quotes from responseText
+                imageUrl.value = uploadedFileUrl.replaceAll('"', '')
+            }
+
+        }
+
+    })
+</script>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

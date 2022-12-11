@@ -1,0 +1,48 @@
+﻿@model IEnumerable<BeanSceneApp.Models.Area>
+
+@{
+    ViewData["Title"] = "Areas";
+}
+<html>
+    <h1>Areas</h1>
+
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("Create")">
+        <span class="glyphicon glyphicon-plus"></span>
+        <span>New</span>
+    </a>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.AreaId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ImageURL)
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AreaId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <img class="img-fluid" style="width: 200px; height: 200px" src="@item.ImageURL">
+                </td>
+                <td>
+                    @Html.Partial("_TableButtonPartial", new IndividualButtonPartial{AreaId = item.AreaId})
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+</html>

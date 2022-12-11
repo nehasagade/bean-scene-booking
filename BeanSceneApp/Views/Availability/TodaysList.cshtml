@@ -1,0 +1,78 @@
+﻿@model IEnumerable<BeanSceneApp.Models.Availability>
+
+@{
+    ViewData["Title"] = "Today's Sittings";
+}
+
+<h1>Today's Sittings</h1>
+
+<p>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("Create")">
+        <span class="glyphicon glyphicon-plus"></span>
+        <span>New</span>
+    </a>
+</p>
+<p>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("Index")">
+        <span>All</span>
+    </a>
+    <a type="button" class="btn btn-primary mb-3" id="selectedBtn" href="@Url.Action("TodaysList")">
+        <span>Today</span>
+    </a>
+</p>
+ <h2>@String.Format("{0: ddd dd/MM/yyyy}", DateTime.Today)</h2>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SittingType)
+            </th>            
+            <th>
+                @Html.DisplayNameFor(model => model.TablesAvailable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Capacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxCapacity)
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @String.Format("{0:hh\\:mm}", item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SittingType)
+            </td>            
+            <td>
+                @Html.DisplayFor(modelItem => item.TablesAvailable)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxCapacity)
+            </td>   
+            <td>
+                    @if (item.Status != Availability.StatusEnum.Closed)
+                    {
+                        <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Close", new { date = item.Date.ToString(), time = item.StartTime})'">Close</button>       
+                    }
+                    
+            </td>
+            <td>
+                @Html.Partial("_DeleteButtonPartial", new IndividualButtonPartial{AvailabilityDate = item.Date, AvailabilityTime = item.StartTime})
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

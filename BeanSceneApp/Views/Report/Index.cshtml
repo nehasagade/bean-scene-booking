@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<h1>Reporting</h1>
+<p>Click on the buttons to see the reports.</p>
+<p>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("PrivateBookingReport")">
+        <span>Private Bookings</span>
+    </a>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("BookingByDateReport")">
+        <span>Bookings by Date</span>
+    </a>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("GuestsByDateReport")">
+        <span>Guests by Date</span>
+    </a>
+    <a type="button" class="btn btn-primary mb-3" href="@Url.Action("BookingByTimeReport")">
+        <span>Bookings by Time</span>
+    </a>
+
+</p>
+

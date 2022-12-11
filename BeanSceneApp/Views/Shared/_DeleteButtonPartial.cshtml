@@ -1,0 +1,17 @@
+﻿@model BeanSceneApp.Models.IndividualButtonPartial
+@using BeanSceneApp.Models
+
+<td style="width: 200px">
+    <div class="btn-group tab-content" role="group">
+        @Html.Partial("_IndividualButtonPartial", new IndividualButtonPartial 
+        {
+            Action = "Delete",
+            ButtonType = "btn-danger",
+            Glyph = "trash",
+            AreaId=Model.AreaId,
+            TableNum = Model.TableNum,
+            SittingType = Model.SittingType,
+            AvailabilityDate = Model.AvailabilityDate,
+            AvailabilityTime = Model.AvailabilityTime
+        })
+    </div>

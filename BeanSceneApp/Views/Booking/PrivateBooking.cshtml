@@ -1,0 +1,79 @@
+﻿@using static BeanSceneApp.ViewModels.PrivateBookingViewModel
+@model BeanSceneApp.ViewModels.PrivateBookingViewModel
+
+@{
+    ViewData["Title"] = "Create Private Booking";
+}
+
+<h1>New Private Booking</h1>
+<p>
+    NOTE: Most private events are 3-4 hours (e.g. Breakfast, Lunch or, Dinner). 
+    <br />Choose "Private Event" for full day events.<br />
+    Please contact us for any questions.
+</p>
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="PrivateBooking">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group my-1">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" type="text" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group my-1">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" type="text" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group my-1">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" type="text" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+              <div class="form-group my-1">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" type="text" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+              <div class="form-group my-1">
+                <label asp-for="NumOfGuests" class="control-label"></label>
+                <input asp-for="NumOfGuests" type="number" class="form-control" />
+                <span asp-validation-for="NumOfGuests" class="text-danger"></span>
+            </div>
+            <div class="form-group my-1">
+                <label asp-for="Note" class="control-label"></label>
+                @Html.TextAreaFor(m => m.Note, new { @class = "form-control" })
+            </div>
+            <div class="form-group my-1">
+                <label asp-for="Date" class="control-label fw-bold"></label>
+                <input asp-for="Date" type="date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+             <div class="form-group my-1">
+                <label asp-for="SittingType" class="control-label fw-bold"></label>
+                @Html.DropDownListFor(model => model.SittingType, new SelectList(Model.SittingTypeList, "SittingName", "SittingName"), new {@class = "form-control form-select"})
+            </div>
+            <div class="form-group my-1">
+                <label asp-for="Source" class="control-label fw-bold"></label><br />
+                <select style="width:100" class = "form-control form-select"} asp-for="@Model.Source" asp-items="Html.GetEnumSelectList<SourceEnum>()"></select>    
+            </div>
+            <div class="form-group">
+                <input asp-for="UserId" type="hidden"/>
+            </div>
+            <div class="form-group my-1">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a type="button" class="btn btn-primary" href="@Url.Action("Index")">
+                    <span>Back</span>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="my-1">
+    
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

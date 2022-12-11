@@ -1,0 +1,123 @@
+﻿@model BeanSceneApp.ViewModels.BookingAvailableTableViewModel
+@{
+    ViewData["Title"] = "SearchTable";
+}
+
+<h1>Available Tables</h1>
+<dl class="row">
+    <dt class = "col-sm-2">
+        Name
+    </dt>
+    <dd class = "col-sm-10">
+        @Model.Booking.FirstName @Model.Booking.LastName
+    </dd>
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.Booking.Phone)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.Booking.Phone)
+    </dd>
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.Booking.Email)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.Booking.Email)
+    </dd>
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.Booking.Date)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.Booking.Date)
+    </dd>
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.Booking.StartTime)
+    </dt>
+    <dd class = "col-sm-10">
+        @String.Format("{0:hh\\:mm}", Model.Booking.StartTime)
+    </dd>
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.Booking.NumOfGuests)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.Booking.NumOfGuests)
+    </dd>
+     <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.Booking.Note)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.Booking.Note)
+    </dd>
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.Booking.RequiredTables)
+    </dt>
+    <dd class = "col-sm-10">
+        @Html.DisplayFor(model => model.Booking.RequiredTables)
+    </dd>
+    <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.Booking.AvailableTables)
+    </dt>
+    <dd class = "col-sm-10">
+        @if (Model.Booking.AvailableTables != null)
+        {
+            foreach(var table in Model.Booking.AvailableTables)
+            {
+                @String.Format("{0}{1}, ",  table.AreaId, table.TableNum)
+            }
+        }       
+    </dd>
+</dl>
+
+@foreach(var group in Model.AvailableTables.GroupBy(m => m.Date))
+{
+<h3>@String.Format("{0: ddd dd/MM/yyyy}", group.Key)</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Start Time
+            </th>
+            <th>
+                Area Id
+            </th>
+            <th>
+                Table Number
+            </th>            
+            <th> 
+                Select
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in group) {
+        <tr>
+            <td>
+                @String.Format("{0: ddd dd/MM/yyyy}", item.Date)
+            </td>
+            <td>
+                @String.Format("{0:hh\\:mm}", item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AreaId)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.TableNum)
+            </td>
+            
+            <td>
+                <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("AddToBooking", new { date = item.Date.ToString(), time = item.StartTime, areaId = item.AreaId, tableNum = item.TableNum, bookingId = Model.Booking.Id })'">Book</button>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+}
+
+@*Resources used for JS button: 
+https://stackoverflow.com/questions/37392630/mvc-call-a-controller-method-on-button-click *@
+
+
+
