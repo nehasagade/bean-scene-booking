@@ -1,9 +1,10 @@
-# BeanSceneBookings
+# Bean Scene Booking App
 ## Scenario
 Restaurant Bean Scene had a paper-based booking and ordering system. As part of the Diploma of IT (Advanced Programming), I developed 2 apps as part of the solution for Bean Scene - this web app for restaurant bookings and a mobile app for managing orders. 
 
 ## Tech & Tools
 - ASP .NET Core MVC web app with Entity Framework
+- Razor & Bootstrap
 - SQL Server
 - Azure DevOps for source code and task management
 - Deployed using Azure resources
